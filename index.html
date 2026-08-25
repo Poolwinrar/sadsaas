@@ -1,0 +1,2885 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Secret Message</title>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body{
+
+    min-height:100vh;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    overflow:hidden;
+
+    color:white;
+
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(255,255,255,.25),
+            transparent 20%
+        ),
+
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(255,255,255,.15),
+            transparent 25%
+        ),
+
+        linear-gradient(
+            135deg,
+            #ff9bd0 0%,
+            #ff629e 45%,
+            #d91f55 100%
+        );
+}
+
+
+/* =====================================================
+   หัวใจลอย
+===================================================== */
+
+.hearts{
+
+    position:fixed;
+    inset:0;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+    z-index:1;
+}
+
+
+.heart{
+
+    position:absolute;
+
+    opacity:.3;
+
+    font-size:28px;
+
+    animation:
+        float 8s linear infinite;
+}
+
+
+.heart:nth-child(1){
+    left:8%;
+    top:18%;
+}
+
+.heart:nth-child(2){
+
+    left:42%;
+    top:8%;
+
+    animation-delay:2s;
+
+    font-size:18px;
+}
+
+.heart:nth-child(3){
+
+    left:90%;
+    top:25%;
+
+    animation-delay:1s;
+}
+
+.heart:nth-child(4){
+
+    left:75%;
+    top:72%;
+
+    animation-delay:4s;
+
+    font-size:20px;
+}
+
+.heart:nth-child(5){
+
+    left:18%;
+    top:78%;
+
+    animation-delay:3s;
+
+    font-size:22px;
+}
+
+.heart:nth-child(6){
+
+    left:55%;
+    top:60%;
+
+    animation-delay:5s;
+
+    font-size:15px;
+}
+
+
+@keyframes float{
+
+    0%{
+
+        transform:
+            translateY(40px)
+            rotate(0deg);
+
+        opacity:0;
+    }
+
+    20%{
+        opacity:.4;
+    }
+
+    80%{
+        opacity:.3;
+    }
+
+    100%{
+
+        transform:
+            translateY(-100px)
+            rotate(20deg);
+
+        opacity:0;
+    }
+
+}
+
+
+/* =====================================================
+   ✨ STAR EFFECT
+===================================================== */
+
+.sparkle{
+
+    position:fixed;
+
+    pointer-events:none;
+
+    z-index:9999;
+
+    color:white;
+
+    font-size:18px;
+
+    text-shadow:
+        0 0 5px white,
+        0 0 12px #fff,
+        0 0 20px #ffb6d9;
+
+    transform:
+        translate(-50%,-50%)
+        scale(.3);
+
+    opacity:1;
+
+    animation:
+        sparkleAnim .7s ease-out forwards;
+}
+
+
+@keyframes sparkleAnim{
+
+    0%{
+
+        opacity:1;
+
+        transform:
+            translate(-50%,-50%)
+            scale(.3)
+            rotate(0deg);
+    }
+
+    50%{
+
+        opacity:1;
+
+        transform:
+            translate(-50%,-50%)
+            scale(1.4)
+            rotate(45deg);
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:
+            translate(
+                calc(-50% + var(--moveX)),
+                calc(-50% + var(--moveY))
+            )
+            scale(0)
+            rotate(90deg);
+    }
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+.login-screen{
+
+    position:fixed;
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    z-index:10;
+
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+}
+
+
+.login-box{
+
+    width:min(
+        380px,
+        90vw
+    );
+
+    padding:
+        30px 28px 24px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.35);
+
+    border-radius:25px;
+
+    background:
+        rgba(255,255,255,.13);
+
+    backdrop-filter:
+        blur(20px);
+
+    -webkit-backdrop-filter:
+        blur(20px);
+
+    box-shadow:
+        0 25px 70px
+        rgba(110,0,40,.25);
+}
+
+
+.lock{
+
+    width:58px;
+    height:58px;
+
+    margin:
+        0 auto 12px;
+
+    border-radius:18px;
+
+    display:grid;
+
+    place-items:center;
+
+    background:
+        rgba(255,255,255,.18);
+
+    font-size:30px;
+}
+
+
+.login-box h1{
+
+    text-align:center;
+
+    font-size:30px;
+
+    margin-bottom:7px;
+}
+
+
+.subtitle{
+
+    text-align:center;
+
+    opacity:.9;
+
+    font-size:15px;
+
+    margin-bottom:22px;
+}
+
+
+/* =====================================================
+   PASSWORD
+===================================================== */
+
+.display{
+
+    height:62px;
+
+    border-radius:16px;
+
+    background:
+        rgba(100,0,45,.18);
+
+    border:
+        1px solid
+        rgba(255,255,255,.15);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:16px;
+}
+
+
+.dot{
+
+    width:11px;
+    height:11px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.35);
+
+    transition:.2s;
+}
+
+
+.dot.filled{
+
+    background:white;
+
+    box-shadow:
+        0 0 10px
+        rgba(255,255,255,.8);
+}
+
+
+/* =====================================================
+   KEYPAD
+===================================================== */
+
+.keypad{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:10px;
+}
+
+
+.key{
+
+    height:59px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.25);
+
+    border-radius:14px;
+
+    color:white;
+
+    background:
+        rgba(255,255,255,.12);
+
+    font-size:21px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.15s;
+}
+
+
+.key:hover{
+
+    background:
+        rgba(255,255,255,.25);
+
+    transform:
+        translateY(-2px);
+}
+
+
+.key:active{
+
+    transform:
+        scale(.94);
+}
+
+
+.key.clear{
+
+    background:
+        rgba(255,90,130,.25);
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.error{
+
+    height:22px;
+
+    text-align:center;
+
+    margin-top:10px;
+
+    color:#ffe1e9;
+
+    font-size:14px;
+
+    opacity:0;
+}
+
+
+.error.show{
+
+    opacity:1;
+
+    animation:
+        shake .35s;
+}
+
+
+@keyframes shake{
+
+    0%,100%{
+        transform:translateX(0);
+    }
+
+    25%{
+        transform:translateX(-7px);
+    }
+
+    75%{
+        transform:translateX(7px);
+    }
+
+}
+
+
+/* =====================================================
+   ENVELOPE
+===================================================== */
+
+.envelope-screen{
+
+    position:fixed;
+
+    inset:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:5;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transform:
+        scale(.96);
+
+    transition:
+        opacity 1s ease,
+        transform 1s ease,
+        visibility 1s;
+}
+
+
+.envelope-screen.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:
+        scale(1);
+}
+
+
+.envelope-area{
+
+    position:relative;
+
+    width:
+        min(430px,90vw);
+
+    height:330px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-end;
+}
+
+
+.envelope{
+
+    position:relative;
+
+    width:
+        min(430px,90vw);
+
+    height:275px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ed344a,
+            #c9152f
+        );
+
+    border-radius:5px;
+
+    box-shadow:
+        0 35px 55px
+        rgba(90,0,25,.4);
+
+    cursor:pointer;
+
+    transition:
+        transform .3s;
+}
+
+
+.envelope:hover{
+
+    transform:
+        translateY(-5px);
+}
+
+
+.envelope-shadow{
+
+    position:absolute;
+
+    width:100%;
+
+    height:70px;
+
+    bottom:-40px;
+
+    left:0;
+
+    background:
+        rgba(100,0,30,.25);
+
+    filter:
+        blur(25px);
+
+    border-radius:50%;
+}
+
+
+.paper{
+
+    position:absolute;
+
+    width:
+        calc(100% - 60px);
+
+    height:220px;
+
+    left:30px;
+
+    bottom:15px;
+
+    background:white;
+
+    color:#ed3d78;
+
+    border-radius:5px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:40px;
+
+    z-index:2;
+
+    transform:
+        translateY(0)
+        scale(.85);
+
+    transition:none;
+}
+
+
+.envelope.open .paper{
+
+    transform:
+        translateY(0)
+        scale(.85);
+}
+
+
+.flap{
+
+    position:absolute;
+
+    left:0;
+    top:0;
+
+    width:0;
+    height:0;
+
+    border-left:
+        215px solid transparent;
+
+    border-right:
+        215px solid transparent;
+
+    border-top:
+        150px solid #b60f29;
+
+    transform-origin:
+        top center;
+
+    z-index:5;
+
+    transition:
+        transform 1s
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+.front{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:4;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ed3047,
+            #cc1530
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            50% 55%,
+            100% 0,
+            100% 100%,
+            0 100%
+        );
+
+    pointer-events:none;
+}
+
+
+.glow{
+
+    position:absolute;
+
+    width:240px;
+    height:160px;
+
+    left:50%;
+    top:-25px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        rgba(255,255,255,.8);
+
+    filter:
+        blur(55px);
+
+    opacity:0;
+
+    z-index:1;
+
+    transition:
+        opacity .8s;
+}
+
+
+.envelope.open .flap{
+
+    transform:
+        rotateX(180deg);
+}
+
+
+.envelope.open .glow{
+
+    opacity:.6;
+}
+
+
+/* =====================================================
+   OPENING TEXT
+===================================================== */
+
+.opening-text{
+
+    position:absolute;
+
+    bottom:-25px;
+
+    width:100%;
+
+    text-align:center;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    text-shadow:
+        0 2px 8px
+        rgba(80,0,30,.3);
+
+    animation:
+        pulseText 1.8s infinite;
+}
+
+
+@keyframes pulseText{
+
+    0%,100%{
+        opacity:.65;
+    }
+
+    50%{
+        opacity:1;
+    }
+
+}
+
+
+/* =====================================================
+   ZOOM
+===================================================== */
+
+.envelope-screen.zoom-in{
+
+    transform:
+        scale(5);
+
+    opacity:0;
+
+    transition:
+        transform 1.5s
+        cubic-bezier(.7,0,1,1),
+        opacity 1.2s;
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading-screen{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:100;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff9bd0,
+            #ff629e,
+            #d91f55
+        );
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:
+        opacity .6s ease;
+}
+
+
+.loading-screen.show{
+
+    opacity:1;
+
+    visibility:visible;
+}
+
+
+.heart-loader{
+
+    width:100px;
+    height:100px;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+
+.heart-shape{
+
+    font-size:78px;
+
+    color:white;
+
+    filter:
+        drop-shadow(
+            0 0 15px
+            rgba(255,255,255,.8)
+        );
+
+    animation:
+        heartBeat
+        1.2s
+        ease-in-out
+        infinite;
+}
+
+
+@keyframes heartBeat{
+
+    0%,100%{
+
+        transform:
+            scale(1)
+            rotate(0deg);
+    }
+
+    25%{
+
+        transform:
+            scale(1.18)
+            rotate(-8deg);
+    }
+
+    50%{
+
+        transform:
+            scale(1)
+            rotate(0deg);
+    }
+
+    75%{
+
+        transform:
+            scale(1.18)
+            rotate(8deg);
+    }
+
+}
+
+
+.loading-title{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    margin-bottom:8px;
+}
+
+
+.loading-subtitle{
+
+    font-size:14px;
+
+    opacity:.8;
+}
+
+
+/* =====================================================
+   LETTER
+===================================================== */
+
+.letter-card{
+
+    position:fixed;
+
+    z-index:90;
+
+    left:50%;
+    top:50%;
+
+    width:
+        min(700px,92vw);
+
+    max-height:90vh;
+
+    overflow:auto;
+
+    padding:
+        40px 35px;
+
+    border-radius:25px;
+
+    background:white;
+
+    color:#333;
+
+    text-align:center;
+
+    box-shadow:
+        0 30px 100px
+        rgba(80,0,30,.45);
+
+    transform:
+        translate(-50%,-50%)
+        scale(.5);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:
+        transform 1s
+        cubic-bezier(.16,.9,.25,1.2),
+        opacity .7s;
+}
+
+
+.letter-card.show{
+
+    transform:
+        translate(-50%,-50%)
+        scale(1);
+
+    opacity:1;
+
+    visibility:visible;
+}
+
+
+.letter-heart{
+
+    font-size:65px;
+
+    color:#ed3d78;
+
+    margin-bottom:10px;
+}
+
+
+.letter-card h2{
+
+    font-size:32px;
+
+    color:#ed3d78;
+
+    margin-bottom:15px;
+}
+
+
+.letter-line{
+
+    width:70%;
+
+    height:1px;
+
+    background:#f28aad;
+
+    margin:
+        0 auto 25px;
+}
+
+
+.letter-card p{
+
+    color:#555;
+
+    line-height:1.9;
+
+    font-size:16px;
+
+    margin-bottom:20px;
+}
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.my-content{
+
+    margin-top:20px;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:#fff5f8;
+
+    color:#555;
+
+    min-height:120px;
+}
+
+
+/* =====================================================
+   MEDIA ROW
+   🎵 ซ้าย + 🎬 ขวา
+===================================================== */
+
+.media-row{
+
+    width:100%;
+
+    display:grid;
+
+    grid-template-columns:
+        180px 1fr;
+
+    align-items:center;
+
+    gap:25px;
+
+    margin-top:25px;
+
+    padding-top:25px;
+
+    border-top:
+        1px solid
+        #f3b1c5;
+}
+
+
+/* =====================================================
+   MUSIC
+===================================================== */
+
+.music-box{
+
+    text-align:center;
+}
+
+
+.music-title{
+
+    color:#ed3d78;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    margin-bottom:15px;
+}
+
+
+.record-area{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+}
+
+
+.record{
+
+    width:140px;
+
+    height:140px;
+
+    border-radius:50%;
+
+    background:
+        repeating-radial-gradient(
+            circle,
+            #111 0px,
+            #111 2px,
+            #222 3px,
+            #111 5px
+        );
+
+    border:
+        5px solid #111;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 10px 25px
+        rgba(0,0,0,.3);
+
+    transition:
+        transform .3s;
+}
+
+
+.record:hover{
+
+    transform:
+        scale(1.05);
+}
+
+
+.record.playing{
+
+    animation:
+        recordSpin
+        2s linear infinite;
+}
+
+
+@keyframes recordSpin{
+
+    from{
+
+        transform:
+            rotate(0deg);
+    }
+
+    to{
+
+        transform:
+            rotate(360deg);
+    }
+
+}
+
+
+.record-center{
+
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:#ed3d78;
+
+    border:
+        5px solid #111;
+
+    position:relative;
+}
+
+
+.record-center::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:8px;
+    height:8px;
+
+    background:white;
+
+    border-radius:50%;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+}
+
+
+.music-hint{
+
+    color:#777;
+
+    font-size:13px;
+
+    margin-top:12px;
+}
+
+
+/* =====================================================
+   VIDEO
+===================================================== */
+
+.video-box{
+
+    width:100%;
+
+    text-align:center;
+}
+
+
+.video-box video{
+
+    width:100%;
+
+    max-width:430px;
+
+    max-height:250px;
+
+    border-radius:18px;
+
+    background:#111;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,.2);
+}
+
+
+/* =====================================================
+   VOLUME
+===================================================== */
+
+.volume-box{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    margin-top:15px;
+
+    color:#ed3d78;
+}
+
+
+.volume-button{
+
+    width:40px;
+    height:40px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#fff0f5;
+
+    color:#ed3d78;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+
+.volume-button:hover{
+
+    transform:
+        scale(1.08);
+
+    background:#ffe0eb;
+}
+
+
+.volume-slider{
+
+    width:
+        min(150px,35vw);
+
+    accent-color:#ed3d78;
+
+    cursor:pointer;
+}
+
+
+.volume-value{
+
+    width:45px;
+
+    font-size:13px;
+
+    color:#777;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:650px){
+
+    body{
+        overflow:hidden;
+    }
+
+
+    .login-box{
+
+        padding:
+            24px 20px;
+    }
+
+
+    .login-box h1{
+
+        font-size:26px;
+    }
+
+
+    .key{
+
+        height:55px;
+    }
+
+
+    .envelope-area{
+
+        height:270px;
+    }
+
+
+    .envelope{
+
+        width:90vw;
+
+        height:
+            calc(90vw * .64);
+    }
+
+
+    .flap{
+
+        border-left:
+            45vw solid transparent;
+
+        border-right:
+            45vw solid transparent;
+
+        border-top:
+            29vw solid #b60f29;
+    }
+
+
+    .paper{
+
+        width:
+            calc(100% - 50px);
+
+        left:25px;
+
+        height:
+            calc(90vw * .55);
+    }
+
+
+    .letter-card{
+
+        width:92vw;
+
+        max-height:90vh;
+
+        padding:
+            28px 18px;
+    }
+
+
+    .letter-card h2{
+
+        font-size:27px;
+    }
+
+
+    /* 🎵 + 🎬 ยังอยู่แถวเดียวกัน */
+
+    .media-row{
+
+        grid-template-columns:
+            125px 1fr;
+
+        gap:12px;
+    }
+
+
+    .record{
+
+        width:105px;
+
+        height:105px;
+    }
+
+
+    .record-center{
+
+        width:34px;
+        height:34px;
+    }
+
+
+    .video-box video{
+
+        max-height:180px;
+
+        border-radius:12px;
+    }
+
+
+    .music-title{
+
+        font-size:14px;
+    }
+
+
+    .music-hint{
+
+        font-size:11px;
+    }
+
+
+    .volume-box{
+
+        gap:5px;
+    }
+
+
+    .volume-slider{
+
+        width:80px;
+    }
+
+
+    .volume-button{
+
+        width:32px;
+        height:32px;
+
+        font-size:15px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEARTS
+===================================================== -->
+
+<div class="hearts">
+
+    <span class="heart">♡</span>
+    <span class="heart">♥</span>
+    <span class="heart">♡</span>
+    <span class="heart">♥</span>
+    <span class="heart">♡</span>
+    <span class="heart">♥</span>
+
+</div>
+
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<div
+    class="login-screen"
+    id="loginScreen"
+>
+
+    <div class="login-box">
+
+        <div class="lock">
+            🔐
+        </div>
+
+        <h1>
+            Secret Message
+        </h1>
+
+        <div class="subtitle">
+            กรุณาใส่รหัสเพื่อเปิดจดหมายลับ
+        </div>
+
+
+        <div
+            class="display"
+            id="display"
+        >
+
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+
+        </div>
+
+
+        <div class="keypad">
+
+            <button class="key" onclick="press(1)">
+                1
+            </button>
+
+            <button class="key" onclick="press(2)">
+                2
+            </button>
+
+            <button class="key" onclick="press(3)">
+                3
+            </button>
+
+            <button class="key" onclick="press(4)">
+                4
+            </button>
+
+            <button class="key" onclick="press(5)">
+                5
+            </button>
+
+            <button class="key" onclick="press(6)">
+                6
+            </button>
+
+            <button class="key" onclick="press(7)">
+                7
+            </button>
+
+            <button class="key" onclick="press(8)">
+                8
+            </button>
+
+            <button class="key" onclick="press(9)">
+                9
+            </button>
+
+            <button
+                class="key clear"
+                onclick="clearCode()"
+            >
+                C
+            </button>
+
+            <button class="key" onclick="press(0)">
+                0
+            </button>
+
+            <button
+                class="key clear"
+                onclick="deleteLast()"
+            >
+                ⌫
+            </button>
+
+        </div>
+
+
+        <div
+            class="error"
+            id="error"
+        >
+            ♡ รหัสไม่ถูกต้อง
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ENVELOPE
+===================================================== -->
+
+<div
+    class="envelope-screen"
+    id="envelopeScreen"
+>
+
+    <div class="envelope-area">
+
+        <div
+            class="envelope"
+            id="envelope"
+            onclick="openEnvelope()"
+        >
+
+            <div class="glow"></div>
+
+            <div class="paper">
+                ♥
+            </div>
+
+            <div class="flap"></div>
+
+            <div class="front"></div>
+
+            <div class="envelope-shadow"></div>
+
+        </div>
+
+
+        <div
+            class="opening-text"
+            id="openingText"
+        >
+            ♥ กดที่ซองจดหมายเพื่อเปิด ♥
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     LOADING
+===================================================== -->
+
+<div
+    class="loading-screen"
+    id="loadingScreen"
+>
+
+    <div class="heart-loader">
+
+        <div class="heart-shape">
+            ♥
+        </div>
+
+    </div>
+
+    <div class="loading-title">
+        กำลังเปิดจดหมาย...
+    </div>
+
+    <div class="loading-subtitle">
+        รอแปบนึงน้าา ❤️
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     LETTER
+===================================================== -->
+
+<div
+    class="letter-card"
+    id="letterCard"
+>
+
+    <div class="letter-heart">
+        ♥
+    </div>
+
+
+    <h2>
+        ถึงคนพิเศษของฉัน
+    </h2>
+
+
+    <div class="letter-line"></div>
+
+
+    <p>
+
+        ถึงเธอ ❤️
+
+        <br><br>
+
+        จริง ๆ เค้าไม่ค่อยเก่งเรื่องเขียนอะไรแบบนี้เท่าไหร่ 😂
+
+        <br>
+
+        แต่อยากบอกว่าดีใจนะเว้ยที่ได้คุยกับเธอ
+
+        <br>
+
+        ถ้าเค้าทำอะไรให้เธอไม่สบายใจไปบ้าง ก็ขอโทษนะ
+
+        <br>
+
+        เค้าหวังว่าเราจะได้คุยกับเธอกันแบบนี้ไปอีกนาน ๆ เลย
+
+        <br>
+
+        ขอบคุณที่อยู่ด้วยกันนะ ❤️
+
+    </p>
+
+
+    <!-- =================================================
+         🎵 + 🎬 MEDIA ROW
+    ================================================== -->
+
+    <div class="media-row">
+
+
+        <!-- 🎵 เพลง -->
+
+        <div class="music-box">
+
+            <div class="music-title">
+                🎵 เค้ามอบให้เธอ
+            </div>
+
+
+            <div class="record-area">
+
+                <div
+                    class="record"
+                    id="record"
+                    onclick="toggleMedia(event)"
+                >
+
+                    <div class="record-center"></div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="music-hint"
+                id="musicHint"
+            >
+                ลองกดแผ่นเสียงดูน้าา ❤️
+            </div>
+
+        </div>
+
+
+
+        <!-- 🎬 วิดีโอ -->
+
+        <div class="video-box">
+
+            <video
+                id="video"
+                src="video.mp4"
+                playsinline
+                preload="metadata"
+                controls
+            ></video>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         🔊 VOLUME
+    ================================================== -->
+
+    <div class="volume-box">
+
+        <button
+            class="volume-button"
+            onclick="volumeDown(event)"
+        >
+            🔉
+        </button>
+
+
+        <input
+            class="volume-slider"
+            id="volumeSlider"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.7"
+            oninput="changeVolume(event)"
+        >
+
+
+        <button
+            class="volume-button"
+            onclick="volumeUp(event)"
+        >
+            🔊
+        </button>
+
+
+        <span
+            class="volume-value"
+            id="volumeValue"
+        >
+            70%
+        </span>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     🎵 MP3
+===================================================== -->
+
+<audio
+    id="music"
+    src="music.mp3"
+    preload="auto"
+></audio>
+
+
+
+<script>
+
+
+/* =====================================================
+   PASSWORD
+===================================================== */
+
+const correctCode =
+    "190869";
+
+let inputCode =
+    "";
+
+let envelopeOpened =
+    false;
+
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const dots =
+    document.querySelectorAll(".dot");
+
+const error =
+    document.getElementById("error");
+
+const loginScreen =
+    document.getElementById("loginScreen");
+
+const envelopeScreen =
+    document.getElementById("envelopeScreen");
+
+const envelope =
+    document.getElementById("envelope");
+
+const loadingScreen =
+    document.getElementById("loadingScreen");
+
+const letterCard =
+    document.getElementById("letterCard");
+
+const openingText =
+    document.getElementById("openingText");
+
+const record =
+    document.getElementById("record");
+
+const music =
+    document.getElementById("music");
+
+const video =
+    document.getElementById("video");
+
+const musicHint =
+    document.getElementById("musicHint");
+
+const volumeSlider =
+    document.getElementById("volumeSlider");
+
+const volumeValue =
+    document.getElementById("volumeValue");
+
+
+
+/* =====================================================
+   🔊 AUDIO CONTEXT
+===================================================== */
+
+const audioContext =
+    new (
+        window.AudioContext ||
+        window.webkitAudioContext
+    )();
+
+
+
+/* =====================================================
+   🔊 CUTE CLICK SOUND
+===================================================== */
+
+function cuteClickSound(){
+
+    try{
+
+        if(
+            audioContext.state ===
+            "suspended"
+        ){
+
+            audioContext.resume();
+
+        }
+
+
+        const oscillator =
+            audioContext.createOscillator();
+
+        const gain =
+            audioContext.createGain();
+
+
+        oscillator.type =
+            "sine";
+
+
+        oscillator.frequency.setValueAtTime(
+            700,
+            audioContext.currentTime
+        );
+
+
+        oscillator.frequency.exponentialRampToValueAtTime(
+            1000,
+            audioContext.currentTime + .08
+        );
+
+
+        gain.gain.setValueAtTime(
+            .0001,
+            audioContext.currentTime
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            .12,
+            audioContext.currentTime + .01
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            .0001,
+            audioContext.currentTime + .12
+        );
+
+
+        oscillator.connect(gain);
+
+        gain.connect(
+            audioContext.destination
+        );
+
+
+        oscillator.start();
+
+        oscillator.stop(
+            audioContext.currentTime + .12
+        );
+
+    }
+
+    catch(e){}
+
+}
+
+
+
+/* =====================================================
+   💕 CORRECT SOUND
+===================================================== */
+
+function correctSound(){
+
+    try{
+
+        if(
+            audioContext.state ===
+            "suspended"
+        ){
+
+            audioContext.resume();
+
+        }
+
+
+        const notes =
+            [
+                659.25,
+                783.99,
+                987.77
+            ];
+
+
+        notes.forEach(
+            (frequency,index)=>{
+
+                const oscillator =
+                    audioContext.createOscillator();
+
+                const gain =
+                    audioContext.createGain();
+
+
+                oscillator.type =
+                    "sine";
+
+
+                const start =
+                    audioContext.currentTime
+                    +
+                    index * .1;
+
+
+                oscillator.frequency.setValueAtTime(
+                    frequency,
+                    start
+                );
+
+
+                gain.gain.setValueAtTime(
+                    .0001,
+                    start
+                );
+
+
+                gain.gain.exponentialRampToValueAtTime(
+                    .15,
+                    start + .02
+                );
+
+
+                gain.gain.exponentialRampToValueAtTime(
+                    .0001,
+                    start + .25
+                );
+
+
+                oscillator.connect(gain);
+
+                gain.connect(
+                    audioContext.destination
+                );
+
+
+                oscillator.start(start);
+
+                oscillator.stop(
+                    start + .25
+                );
+
+            }
+        );
+
+    }
+
+    catch(e){}
+
+}
+
+
+
+/* =====================================================
+   ✨ LOADING SOUND
+===================================================== */
+
+function loadingSound(){
+
+    try{
+
+        if(
+            audioContext.state ===
+            "suspended"
+        ){
+
+            audioContext.resume();
+
+        }
+
+
+        const notes =
+            [
+                523.25,
+                659.25,
+                783.99,
+                1046.50
+            ];
+
+
+        notes.forEach(
+            (frequency,index)=>{
+
+                const oscillator =
+                    audioContext.createOscillator();
+
+                const gain =
+                    audioContext.createGain();
+
+
+                oscillator.type =
+                    "sine";
+
+
+                const start =
+                    audioContext.currentTime
+                    +
+                    index * .18;
+
+
+                oscillator.frequency.setValueAtTime(
+                    frequency,
+                    start
+                );
+
+
+                gain.gain.setValueAtTime(
+                    .0001,
+                    start
+                );
+
+
+                gain.gain.exponentialRampToValueAtTime(
+                    .09,
+                    start + .03
+                );
+
+
+                gain.gain.exponentialRampToValueAtTime(
+                    .0001,
+                    start + .45
+                );
+
+
+                oscillator.connect(gain);
+
+                gain.connect(
+                    audioContext.destination
+                );
+
+
+                oscillator.start(start);
+
+                oscillator.stop(
+                    start + .45
+                );
+
+            }
+        );
+
+    }
+
+    catch(e){}
+
+}
+
+
+
+/* =====================================================
+   PRESS NUMBER
+===================================================== */
+
+function press(number){
+
+    if(
+        inputCode.length >= 6
+    ){
+
+        return;
+
+    }
+
+
+    cuteClickSound();
+
+    inputCode +=
+        number;
+
+    updateDisplay();
+
+
+    if(
+        inputCode.length === 6
+    ){
+
+        setTimeout(
+            checkCode,
+            200
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DISPLAY
+===================================================== */
+
+function updateDisplay(){
+
+    dots.forEach(
+        (dot,index)=>{
+
+            dot.classList.toggle(
+
+                "filled",
+
+                index <
+                inputCode.length
+
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   CHECK CODE
+===================================================== */
+
+function checkCode(){
+
+    if(
+        inputCode ===
+        correctCode
+    ){
+
+        correctPassword();
+
+    }
+
+    else{
+
+        error.classList.remove(
+            "show"
+        );
+
+
+        void error.offsetWidth;
+
+
+        error.classList.add(
+            "show"
+        );
+
+
+        inputCode =
+            "";
+
+        updateDisplay();
+
+    }
+
+}
+
+
+
+/* =====================================================
+   PASSWORD CORRECT
+===================================================== */
+
+function correctPassword(){
+
+    correctSound();
+
+
+    loginScreen.style.opacity =
+        "0";
+
+    loginScreen.style.transform =
+        "scale(.95)";
+
+
+    setTimeout(()=>{
+
+        loginScreen.style.visibility =
+            "hidden";
+
+        envelopeScreen.classList.add(
+            "show"
+        );
+
+    },700);
+
+}
+
+
+
+/* =====================================================
+   CLEAR
+===================================================== */
+
+function clearCode(){
+
+    cuteClickSound();
+
+
+    inputCode =
+        "";
+
+    updateDisplay();
+
+
+    error.classList.remove(
+        "show"
+    );
+
+}
+
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+function deleteLast(){
+
+    cuteClickSound();
+
+
+    inputCode =
+        inputCode.slice(
+            0,
+            -1
+        );
+
+    updateDisplay();
+
+}
+
+
+
+/* =====================================================
+   OPEN ENVELOPE
+===================================================== */
+
+function openEnvelope(){
+
+    if(
+        envelopeOpened
+    ){
+
+        return;
+
+    }
+
+
+    envelopeOpened =
+        true;
+
+
+    openingText.style.opacity =
+        "0";
+
+
+    envelope.classList.add(
+        "open"
+    );
+
+
+    setTimeout(()=>{
+
+        envelopeScreen.classList.add(
+            "zoom-in"
+        );
+
+
+        setTimeout(()=>{
+
+            /* 🔊 เสียงตอน Loading */
+
+            loadingSound();
+
+
+            loadingScreen.classList.add(
+                "show"
+            );
+
+
+            /* ❤️ Loading 4 วินาที */
+
+            setTimeout(()=>{
+
+                loadingScreen.classList.remove(
+                    "show"
+                );
+
+
+                setTimeout(()=>{
+
+                    letterCard.classList.add(
+                        "show"
+                    );
+
+                },500);
+
+
+            },4000);
+
+
+        },1000);
+
+
+    },900);
+
+}
+
+
+
+/* =====================================================
+   🎵🎬 PLAY MUSIC + VIDEO
+===================================================== */
+
+function toggleMedia(event){
+
+    event.stopPropagation();
+
+
+    if(
+        music.paused
+    ){
+
+        /* เพลง */
+
+        music.play()
+        .then(()=>{
+
+            record.classList.add(
+                "playing"
+            );
+
+
+            musicHint.textContent =
+                "กำลังเล่นเพลงและวิดีโอ... ❤️";
+
+        })
+        .catch(()=>{
+
+            musicHint.textContent =
+                "กดอีกครั้งเพื่อเล่นเพลงนะ ❤️";
+
+        });
+
+
+        /* วิดีโอ */
+
+        video.play()
+        .catch(()=>{});
+
+    }
+
+    else{
+
+        /* หยุดเพลง */
+
+        music.pause();
+
+
+        /* หยุดวิดีโอ */
+
+        video.pause();
+
+
+        record.classList.remove(
+            "playing"
+        );
+
+
+        musicHint.textContent =
+            "หยุดแล้ว ❤️ กดแผ่นเสียงเพื่อเล่นอีกครั้ง";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   🎵 เพลงจบ
+===================================================== */
+
+music.addEventListener(
+    "ended",
+    ()=>{
+
+        record.classList.remove(
+            "playing"
+        );
+
+
+        video.pause();
+
+
+        musicHint.textContent =
+            "เพลงจบแล้ว ❤️ กดแผ่นเสียงเพื่อฟังอีกครั้ง";
+
+    }
+);
+
+
+
+/* =====================================================
+   🎬 VIDEO จบ
+===================================================== */
+
+video.addEventListener(
+    "ended",
+    ()=>{
+
+        musicHint.textContent =
+            "วิดีโอจบแล้ว แต่เพลงยังเล่นอยู่ ❤️";
+
+    }
+);
+
+
+
+/* =====================================================
+   🔊 VOLUME
+===================================================== */
+
+let currentVolume =
+    0.7;
+
+
+music.volume =
+    currentVolume;
+
+video.volume =
+    currentVolume;
+
+
+
+/* =====================================================
+   CHANGE VOLUME
+===================================================== */
+
+function changeVolume(event){
+
+    event.stopPropagation();
+
+
+    currentVolume =
+        parseFloat(
+            volumeSlider.value
+        );
+
+
+    music.volume =
+        currentVolume;
+
+    video.volume =
+        currentVolume;
+
+
+    updateVolumeText();
+
+}
+
+
+
+/* =====================================================
+   VOLUME UP
+===================================================== */
+
+function volumeUp(event){
+
+    event.stopPropagation();
+
+
+    currentVolume +=
+        0.1;
+
+
+    if(
+        currentVolume > 1
+    ){
+
+        currentVolume = 1;
+
+    }
+
+
+    music.volume =
+        currentVolume;
+
+    video.volume =
+        currentVolume;
+
+
+    volumeSlider.value =
+        currentVolume;
+
+
+    updateVolumeText();
+
+}
+
+
+
+/* =====================================================
+   VOLUME DOWN
+===================================================== */
+
+function volumeDown(event){
+
+    event.stopPropagation();
+
+
+    currentVolume -=
+        0.1;
+
+
+    if(
+        currentVolume < 0
+    ){
+
+        currentVolume = 0;
+
+    }
+
+
+    music.volume =
+        currentVolume;
+
+    video.volume =
+        currentVolume;
+
+
+    volumeSlider.value =
+        currentVolume;
+
+
+    updateVolumeText();
+
+}
+
+
+
+/* =====================================================
+   VOLUME TEXT
+===================================================== */
+
+function updateVolumeText(){
+
+    volumeValue.textContent =
+        Math.round(
+            currentVolume * 100
+        )
+        +
+        "%";
+
+}
+
+
+
+/* =====================================================
+   ✨ STAR EFFECT
+   เมาส์ขยับ + คลิก
+===================================================== */
+
+let lastSparkleTime = 0;
+
+
+function createSparkle(x,y){
+
+    const now =
+        Date.now();
+
+
+    /* จำกัดไม่ให้สร้างเยอะเกินไป */
+
+    if(
+        now - lastSparkleTime < 45
+    ){
+
+        return;
+
+    }
+
+
+    lastSparkleTime =
+        now;
+
+
+    const sparkle =
+        document.createElement("span");
+
+
+    sparkle.className =
+        "sparkle";
+
+
+    sparkle.textContent =
+        Math.random() > .5
+        ? "✦"
+        : "✧";
+
+
+    sparkle.style.left =
+        x + "px";
+
+
+    sparkle.style.top =
+        y + "px";
+
+
+    sparkle.style.setProperty(
+        "--moveX",
+        ((Math.random() - .5) * 35)
+        + "px"
+    );
+
+
+    sparkle.style.setProperty(
+        "--moveY",
+        ((Math.random() - .5) * 35)
+        + "px"
+    );
+
+
+    document.body.appendChild(
+        sparkle
+    );
+
+
+    setTimeout(()=>{
+
+        sparkle.remove();
+
+    },700);
+
+}
+
+
+
+/* =====================================================
+   🖱️ MOUSE MOVE
+===================================================== */
+
+document.addEventListener(
+    "mousemove",
+    (event)=>{
+
+        createSparkle(
+            event.clientX,
+            event.clientY
+        );
+
+    }
+);
+
+
+
+/* =====================================================
+   👆 CLICK
+===================================================== */
+
+document.addEventListener(
+    "click",
+    (event)=>{
+
+        /* สร้างดาวเพิ่มตอนคลิก */
+
+        for(
+            let i = 0;
+            i < 4;
+            i++
+        ){
+
+            setTimeout(()=>{
+
+                createSparkle(
+                    event.clientX
+                    +
+                    (Math.random()-0.5)*30,
+
+                    event.clientY
+                    +
+                    (Math.random()-0.5)*30
+                );
+
+            },i*40);
+
+        }
+
+    }
+);
+
+
+</script>
+
+
+</body>
+</html>
